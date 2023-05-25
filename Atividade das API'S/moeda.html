@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cotação de Moeda</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="style.css">
+    <style>
+        body{
+            background-color: #333;
+        }
+        
+        h1 {
+            margin-top: 50px;
+            margin-bottom: 40px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        span {
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function getExchangeRates() {
+            var baseCurrency = 'BRL';
+            var targetCurrencies = ['EUR', 'USD', 'GBP','CAD', 'JPY', 'AUD'];
+
+            var apiUrl = 'https://api.exchangerate-api.com/v4/latest/' + baseCurrency;
+
+            $.ajax({
+                url: apiUrl,
+                dataType: 'json',
+                success: function(data) {
+                    var exchangeRates = data.rates;
+                    var eurToBrl = 1 / exchangeRates['EUR'];
+                    var usdToBrl = 1 / exchangeRates['USD'];
+                    var gbpToBrl = 1 / exchangeRates['GBP'];
+                    var cadToBrl = 1 / exchangeRates['CAD'];
+                    var jpyToBrl = 1 / exchangeRates['JPY'];
+                    var audToBrl = 1 / exchangeRates['AUD'];
+
+                    $('#exchange-rate-eur').text(eurToBrl.toFixed(2));
+                    $('#exchange-rate-usd').text(usdToBrl.toFixed(2));
+                    $('#exchange-rate-gbp').text(gbpToBrl.toFixed(2));
+                    $('#exchange-rate-cad').text(cadToBrl.toFixed(2));
+                    $('#exchange-rate-jpy').text(jpyToBrl.toFixed(2));
+                    $('#exchange-rate-aud').text(audToBrl.toFixed(2));
+                },
+                error: function() {
+                    $('#exchange-rate-eur').text('Erro ao obter a taxa de câmbio.');
+                    $('#exchange-rate-usd').text('Erro ao obter a taxa de câmbio.');
+                    $('#exchange-rate-gbp').text('Erro ao obter a taxa de câmbio.');
+                    $('#exchange-rate-cad').text('Erro ao obter a taxa de câmbio.');
+                    $('#exchange-rate-jpy').text('Erro ao obter a taxa de câmbio.');
+                    $('#exchange-rate-aud').text('Erro ao obter a taxa de câmbio.');
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            getExchangeRates();
+        });
+    </script>
+</head>
+<body>
+    <header class="fixed-top">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="index.html">API WORLD</a>
+		</nav>
+	</header>
+    <h1 style="color: white;">Cotação de Moeda</h1>
+    <div class="container">
+        <p>1 Euro (EUR) = <span id="exchange-rate-eur"></span> Real Brasileiro (BRL)</p>
+        <p>1 Dólar Americano (USD) = <span id="exchange-rate-usd"></span> Real Brasileiro (BRL)</p>
+        <p>1 Libra Esterlina (GBP) = <span id="exchange-rate-gbp"></span> Real Brasileiro (BRL)</p>
+        <p>1 Dólar canadense (CAD) = <span id="exchange-rate-cad"></span> Real Brasileiro (BRL)</p>
+        <p>1 Iene japonês (JPY) = <span id="exchange-rate-jpy"></span> Real Brasileiro (BRL)</p>
+        <p>1 Dólar australiano (AUD) = <span id="exchange-rate-aud"></span> Real Brasileiro (BRL)</p>
+    </div>
+</body>
+</html>

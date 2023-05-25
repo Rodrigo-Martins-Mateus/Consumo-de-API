@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title class="title-text">Painel de API's</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="style.css">
+	<style>
+
+
+		.card {
+			max-height: 400px;
+			width: 300px;
+			margin-bottom: 20px;
+		}
+
+		.card-body {
+			display: flex;
+			height: 70px;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.api-button {
+			width: 100%;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="fixed-top">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">API WORLD</a>
+		</nav>
+	</header>
+
+	<div class="container">
+		<h1 style="color: aliceblue;">API Buttons</h1>
+		<div class="card">
+			<img style="padding: 30px 5px 30px 5px;" src="./img/openweather-logo.png" class="card-img-top" alt="clima logo">
+			<div class="card-body">
+				<button onclick="window.location.href ='./clima.html'" class="btn btn-primary api-button">WeatherAPI</button>
+			</div>
+		</div>
+
+		<div class="card">
+			<img style="padding: 30px 5px 30px 5px; width: 100%; max-height: 200px ;" src="./img/gato.avif" class="card-img-top" alt="clima logo">
+			<div class="card-body">
+				<button onclick="window.location.href = './gato.html'" class="btn btn-primary api-button">GIF</button>
+			</div>
+		</div>
+		<div class="card">
+			<img src="./img/GitHub-logo.png" alt="">
+			<div class="card-body">
+				<button onclick="window.location.href ='./github.html'" class="btn btn-primary api-button">API GitHub</button>
+			</div>
+		</div>
+		<div class="card">
+			<h1 style="font-weight: bolder; padding: 30px;">Chuck Norris</h1>
+			<div class="card-body">
+				<button onclick="getJoke()" class="btn btn-primary api-button">Chuck Norris Jokes</button>
+			</div>
+		</div>
+		<div style="align-items: center;" class="card">
+			<img style="height: 150px; width: 200px;" src="./img/transferencia-internacional.svg" alt="">
+			<div class="card-body">
+				<button onclick="window.location.href ='./moeda.html'" class="btn btn-primary api-button">Cotação de Moedas</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		function getWeather() {
+			fetch('https://api.openweathermap.org/data/2.5/weather?q=London&appid=143b534771ccb16cbf2fbdaab38a547b')
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+				})
+				.catch(error => console.error(error));
+		}
+
+		function getMaps() {
+			window.open('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key={YOUR_API_KEY}');
+		}
+
+		function getJoke() {
+			// Chama a API.
+			fetch('https://api.chucknorris.io/jokes/random')
+				.then(response => response.json())
+				.then(data => {
+					// Exibe a piada em uma modal, para criar a modal foi utilizada a
+					//biblioteca SweetAlert(swal).
+					swal({
+						title: 'Chuck Norris Jokes',
+						text: data.value,
+					});
+				})
+				.catch(error => {
+					// Exibe uma mensagem de erro no caso de falha na chamada.
+					swal({
+						title: 'Error',
+						text: 'Falha ao Gerar um Piada',
+						icon: 'error'
+					});
+				});
+		}
+
+	
+	</script>
+	<!-- Incluir a biblioteca SweetAlert -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</body>
+</html>

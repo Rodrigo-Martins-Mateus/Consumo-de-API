@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>API de Clima</title>
+	<!-- Inclui o CSS do Bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./style.css">
+	<style>
+		h1 {
+			margin-top: 20px;
+		}
+
+		.btn-primary {
+			margin-top: 20px;
+		}
+
+		.modal-dialog {
+			max-width: 400px;
+		}
+
+		.modal-content {
+			padding: 20px;
+		}
+
+		.modal-title {
+			font-weight: bold;
+			margin-bottom: 20px;
+		}
+
+		.modal-body {
+			font-size: 18px;
+		}
+	</style>
+</head>
+<body>
+	<header class="fixed-top">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="./index.html">API WORLD</a>
+		</nav>
+	</header>
+	
+	<h1 style="margin-top: 50px;">OpenWeatherMap API</h1>
+	
+	<div class="container">
+		<h2 style="color: aliceblue;">Escolha a Cidade</h2>
+		<!-- Botão que abre a modal -->
+		<button style="height: 70px; width: 250px; font-size: 24px; margin-bottom: 20px;" type="button" class="btn btn-primary" onclick="getWeather()">Clima em Londres</button>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="weatherModal" tabindex="-1" role="dialog" aria-labelledby="weatherModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="weatherModalLabel">Clima em Londres</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<!-- Aqui serão exibidas as informações da API -->
+					<p id="weatherInfo"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Inclui o JS do Bootstrap e o seu próprio script -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<script>
+		// Função que faz a chamada da API e exibe as informações na modal
+		function getWeather() {
+			$.ajax({
+				url: 'https://api.openweathermap.org/data/2.5/weather?q=London&appid=143b534771ccb16cbf2fbdaab38a547b&leng=pt_br',
+				method: 'GET',
+				dataType: 'json',
+				success: function(data) {
+					// Exibe as informações na modal
+					console.log(data.main.temp)
+					document.getElementById('weatherInfo').innerHTML = `Temperature: ${data.main.temp} K<br><br>Humidity: ${data.main.humidity}% <br> <br> Wind Speed: ${data.wind.speed} Km/h`;
+					// Abre a modal
+					$('#weatherModal').modal('show');
+				},
+				error: function(error) {
+					console.error(error);
+				}
+			});
+		}
+	</script>
+</body>
+</html>
